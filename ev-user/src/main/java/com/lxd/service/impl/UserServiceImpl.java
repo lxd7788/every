@@ -68,7 +68,6 @@ public class UserServiceImpl implements UserService {
 
         //1.生成验证码
         String code = NumberUtils.generateCode(6);
-        System.out.println("验证码是：=====》"+code);
         try {
             Map<String,String> msg = new HashMap<>();
             msg.put("phone",phone);
@@ -85,7 +84,6 @@ public class UserServiceImpl implements UserService {
             logger.error("发送短信失败。phone：{}，code：{}",phone,code);
             return false;
         }
-//        return true;
     }
 
     @Override

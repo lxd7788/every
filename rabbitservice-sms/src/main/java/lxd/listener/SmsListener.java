@@ -2,6 +2,8 @@ package lxd.listener;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -17,7 +19,7 @@ import java.util.Map;
  */
 @Component
 public class SmsListener {
-
+    private static Logger logger = LoggerFactory.getLogger(SmsListener.class);
 
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "leyou.sms.queue",durable = "true"),
@@ -39,7 +41,7 @@ public class SmsListener {
 //            }catch (ClientException e){
 //                return;
 //            }
-            System.out.println("手机是==》"+phone+"验证码是======》"+code);
+            logger.info("手机是==》"+phone+"验证码是======》"+code);
         }else {
             //不做处理
             return;
