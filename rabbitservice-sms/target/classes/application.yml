@@ -1,0 +1,18 @@
+server:
+  port: 8782
+spring:
+  application:
+    name: rabitsms-service
+  rabbitmq:
+      host: 192.168.109.102
+      username: leyou
+      password: leyou
+      virtual-host: /leyou
+      publisher-confirms: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 5秒钟发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期

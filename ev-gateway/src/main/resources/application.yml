@@ -1,0 +1,52 @@
+server:
+  port: 10010
+spring:
+  ignored-services: upload-servie
+  application:
+    name: every-gateway
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5 #指示从eureka服务器获取注册表信息的频率（s），默认30s
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+#      defaultZone: http://192.168.109.201:10086/eureka
+zuul:
+  prefix: /api # 路由路径前缀
+  routes:
+#      item-service: /item/** # 商品微服务的映射路径
+#      user-service: /user/**
+      every-user: /regis/** #注册
+      rabitsms-service: /rabitsms/**
+      every-auto: /auto/** #登录授权
+      every-h5: /h5/** #h5商品服务
+
+  add-host-header: true
+  sensitive-headers:
+
+leyou:
+  jwt:
+    pubKeyPath: F:\\tmp\\rsa\\rsa.pub # 公钥地址
+    cookieName: COOKNA
+  filter: #白名单不需要拦截的
+    allowPaths:
+      - /api/auto
+      - /api/search
+      - /api/regis/register
+      - /api/regis/check
+      - /api/regis/code
+      - /api/item
+      - /api/rabitsms
+#      - /api/h5
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 8000 # 设置hystrix的超时时间为4000ms
+
+ribbon:
+  ConnectionTimeout: 500
+  ReadTimeout: 2000
