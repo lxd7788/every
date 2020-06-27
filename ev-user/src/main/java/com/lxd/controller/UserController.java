@@ -2,6 +2,10 @@ package com.lxd.controller;
 
 import com.lxd.pojo.User;
 import com.lxd.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +24,7 @@ import javax.validation.Valid;
  * @Feature:
  */
 @Controller
+@Api("用户相关api")
 public class UserController {
 
     @Autowired
@@ -46,6 +51,8 @@ public class UserController {
      * @return
      */
     @PostMapping("code")
+    @ApiOperation(value = "短信api",notes = "向手机号发送验证码")
+    @ApiImplicitParam(name = "phone",value = "手机号",required = true)
     public ResponseEntity senVerifyCode(@RequestParam("phone") String phone){
         Boolean result = this.userService.sendVerifyCode(phone);
         if (result == null || !result){
@@ -61,6 +68,11 @@ public class UserController {
      * @return
      */
     @PostMapping("register")
+    @ApiOperation(value = "注册",notes = "用户信息注册")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user",value = "用户信息" ,required = true),
+            @ApiImplicitParam(name="code",value = "验证码",required = true)
+    })
     public ResponseEntity<Void> register(@Valid User user, @RequestParam("code") String code){
         Boolean result = this.userService.register(user,code);
         if(result == null || !result){
