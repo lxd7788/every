@@ -85,6 +85,7 @@ public class AuthController {
      * @return
      */
     @GetMapping("verify")
+    @ApiOperation(value = "状态",notes = "用户状态")
     public ResponseEntity<UserInfo> verifyUser(@CookieValue("COOKNA") String token,HttpServletRequest request,
                                                HttpServletResponse response){
         try{
