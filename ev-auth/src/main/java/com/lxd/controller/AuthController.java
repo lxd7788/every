@@ -6,7 +6,12 @@ import com.lxd.service.AuthService;
 import com.lxd.utils.CookieUtils;
 import com.lxd.utils.JwtUtils;
 import com.lxd.utils.UserInfo;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +30,9 @@ import javax.servlet.http.HttpServletResponse;
  * @Feature: 登录授权
  */
 @Controller
-//@EnableConfigurationProperties(JwtProperties.class)
 public class AuthController {
+
+    private static Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private AuthService authService;
@@ -43,13 +49,18 @@ public class AuthController {
      * @return
      */
     @PostMapping("accredit")
+    @ApiOperation(value = "登录",notes = "用户登录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username",value = "用户名" ,required = true),
+            @ApiImplicitParam(name="username",value = "密码",required = true)
+    })
     public ResponseEntity<Void> authentication(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             HttpServletRequest request,
             HttpServletResponse response
     ){
-        System.out.println(username+"========="+password);
+        logger.info("用户名："+username+"密码:"+password);
         //1.登录校验
         String token = this.authService.authentication(username,password);
         if (StringUtils.isBlank(token)){
