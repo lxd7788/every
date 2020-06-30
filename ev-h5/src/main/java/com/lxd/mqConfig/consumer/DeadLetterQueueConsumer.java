@@ -48,6 +48,7 @@ public class DeadLetterQueueConsumer {
 
         int i = itemKillSuccessService.yodateOrderStatus(msg);
         System.out.println("结果"+i);
+        //如果订单依然没有支付，修改订单状态，并库存+1
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 }
