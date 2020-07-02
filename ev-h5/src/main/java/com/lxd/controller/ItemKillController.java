@@ -24,6 +24,7 @@ public class ItemKillController {
     /**
      * 秒杀详情list
      * @return
+     * 列表信息放到redis中，同时加锁操作，第一个用户请求时从数据库中查询，之后的请求都从redis
      */
     @GetMapping("/list")
     public ResponseEntity<Object>  all(){
@@ -31,6 +32,12 @@ public class ItemKillController {
         return ResponseEntity.ok(itemKills);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * 修改查询逻辑，根据商品id，从list商品详情中循环获取对象 or 直接存商品对象
+     */
     @PostMapping("/xiadan")
     public ResponseEntity<Object>  xiadan(@RequestParam(value = "id" ,required=false,defaultValue="0") String id){
         ItemKill itemKill = itemKillService.SelectItemKillById(Integer.parseInt(id));
