@@ -69,18 +69,14 @@ public class KillServiceImpl implements KillService {
                 }
 
                 //减库存
-
-                    int i = itemKillMapper.updateKillItem(killId);
-                    //>0减库存成功，通知订单入库，mq发送成信息
-                    if(i>0){
-                        //订单
-                        ItemKill itemKill1 = itemKillMapper.selectByPrimaryKey(killId);
-                        commonRecordKillSuccessInfo(itemKill1,id);
-                        result = true;
-                        return result;
-                    }
-
-
+                Long n = redisTemplate.opsForValue().increment("kill" + killId, -1);
+                if(n>0){
+                    //扣减成功
+                    ItemKill itemKill1 = itemKillMapper.selectByPrimaryKey(killId);
+                    commonRecordKillSuccessInfo(itemKill1,id);
+                    result = true;
+                    return result;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -90,7 +86,7 @@ public class KillServiceImpl implements KillService {
             }
 
         }
-
+        return result;
 //        if (itemKillSuccessService.countByKillUserId(killId,id) <= 0){
 //            //分布式锁
 //            final String key=new StringBuffer().append(killId).append(id).append("-RedisLock").toString();
@@ -131,7 +127,7 @@ public class KillServiceImpl implements KillService {
 //        }else {
 //            System.out.println("您已经抢购过该商品了!");
 //        }
-        return result;
+
     }
 
     /**
