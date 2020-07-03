@@ -40,39 +40,36 @@ public class KillServiceImpl implements KillService {
     @Override
     public Boolean killItem(Integer killId,long id) {
         Boolean result=false;
-        //订单查询该用户是否已经买过，yes-》false0
-        Boolean uu = redisTemplate.hasKey("user" + id+killId);
-        if(uu){
-            logger.info("用户已经下单");
-            return result;
-        }
-        //从redis查询商品是否可以秒杀，根据数量>0表示可以秒杀
-        Boolean kk = redisTemplate.hasKey("kill" + killId);
-        if (!kk){
-            logger.info("秒杀商品不存在");
-            return result;
-        }
-        //存在时判断剩余量
-        int num = (int)redisTemplate.opsForValue().get("kill" + killId);
-        if(num>0){
-            logger.info("秒杀商品卖完");
-            return result;
-        }
         //开始下单逻辑
         final String key=new StringBuffer().append(killId).append(id).append("-RedisLock").toString();
-
         final String value=UUID.randomUUID().toString();
 
-        System.out.println(key+"------"+value);
         Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent(key, value);
         if(aBoolean){
             redisTemplate.expire(key,30, TimeUnit.SECONDS);
 
             try {
-                ItemKill  itemKill = itemKillMapper.selectByPrimaryKey(killId);
-                //判断该商品是否可以秒杀
-                if (itemKill !=null && 1 == itemKill.getIsActive()){
-                    //库存-1，在库存大于1的情况下
+                //订单查询该用户是否已经买过，yes-》false0
+                Boolean uu = redisTemplate.hasKey("user" + id+killId);
+                if(uu){
+                    logger.info("用户已经下单");
+                    return result;
+                }
+                //从redis查询商品是否可以秒杀，根据数量>0表示可以秒杀
+                Boolean kk = redisTemplate.hasKey("kill" + killId);
+                if (!kk){
+                    logger.info("秒杀商品不存在");
+                    return result;
+                }
+                //存在时判断剩余量
+                int num = (int)redisTemplate.opsForValue().get("kill" + killId);
+                if(num<=0){
+                    logger.info("秒杀商品卖完");
+                    return result;
+                }
+
+                //减库存
+
                     int i = itemKillMapper.updateKillItem(killId);
                     //>0减库存成功，通知订单入库，mq发送成信息
                     if(i>0){
@@ -82,7 +79,7 @@ public class KillServiceImpl implements KillService {
                         result = true;
                         return result;
                     }
-                }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
