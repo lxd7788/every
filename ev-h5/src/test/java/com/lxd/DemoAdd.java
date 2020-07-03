@@ -20,6 +20,11 @@ public class DemoAdd {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    /**
+     * 商品redis
+     * key："kill" + 商品id
+     * value
+     */
     @Test
     public void add(){
 

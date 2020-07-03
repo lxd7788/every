@@ -148,6 +148,9 @@ public class KillServiceImpl implements KillService {
 
         int i = itemKillSuccessService.insertKill(entity);
         if(1>0){
+         //   "user" + id+killId
+            //订单表存入redis，过期时间和订单过期时间一致
+            redisTemplate.opsForValue().set("user"+id+kill.getId(),entity.getCode(),30, TimeUnit.MINUTES);
             System.out.println("=========>成功====>发送私信队列订单编码"+entity.getCode());
             //成功发送mq
             //添加私信队列处理超时的订单
