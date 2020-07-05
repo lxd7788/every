@@ -41,9 +41,9 @@ public class KillServiceImpl implements KillService {
     public Boolean killItem(Integer killId,long id) {
         Boolean result=false;
         //开始下单逻辑
-        final String key=new StringBuffer().append(killId).append(id).append("-RedisLock").toString();
+        final String key=new StringBuffer().append(killId).append("001").append("-RedisLock").toString();
         final String value=UUID.randomUUID().toString();
-
+        logger.info("key"+key+"value--"+value);
         Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent(key, value);
         if(aBoolean){
             redisTemplate.expire(key,30, TimeUnit.SECONDS);
@@ -64,7 +64,7 @@ public class KillServiceImpl implements KillService {
                 //存在时判断剩余量
                 int num = (int)redisTemplate.opsForValue().get("kill" + killId);
                 if(num<=0){
-                    logger.info("秒杀商品卖完");
+                    logger.info("秒杀商品卖完"+num);
                     return result;
                 }
 
@@ -83,6 +83,7 @@ public class KillServiceImpl implements KillService {
             } finally {
                 if(value.equals(redisTemplate.opsForValue().get(key))){
                     redisTemplate.delete(key);
+                    logger.info("释放锁");
                 };
             }
 

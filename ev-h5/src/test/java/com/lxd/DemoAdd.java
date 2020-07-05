@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.UUID;
+
 /**
  * @ClassName DemoTest
  * @Author lxd
@@ -48,8 +50,11 @@ public class DemoAdd {
 
     @Test
     public void get(){
+        final String key=new StringBuffer().append("test").append("001").append("-RedisLock").toString();
+        final String value= UUID.randomUUID().toString();
+        System.out.println(key+"--->"+value);
+        Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent(key, value);
+        System.out.println(aBoolean);
 
-        Long n = redisTemplate.opsForValue().increment("kill" + 1, -1);
-        System.out.println("---"+n);
     }
 }
