@@ -29,7 +29,7 @@ public class KillServiceImpl implements KillService {
     private static Logger logger = LoggerFactory.getLogger(KillServiceImpl.class);
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
     @Autowired
     private ItemKillMapper itemKillMapper;
     @Autowired
@@ -70,6 +70,7 @@ public class KillServiceImpl implements KillService {
 
                 //减库存
                 Long n = redisTemplate.opsForValue().increment("kill" + killId, -1);
+                logger.info("key----"+"kill" + killId);
                 if(n>0){
                     //扣减成功
                     ItemKill itemKill1 = itemKillMapper.selectByPrimaryKey(killId);

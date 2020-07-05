@@ -18,7 +18,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class DemoAdd {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
+
+//    @Autowired
+//    private RedisTemplate redis;
 
     /**
      * 商品redis
@@ -28,12 +31,25 @@ public class DemoAdd {
     @Test
     public void add(){
 
-        redisTemplate.opsForValue().set("kill"+"秒傻商品id",10);
+        redisTemplate.opsForValue().set("kill"+"1",10);
+
 
     }
 
     @Test
-    public void t1(){
-        System.out.println(1111);
+    public void del(){
+//        Boolean kk = redisTemplate.hasKey("kill1");
+//
+//        System.out.println(kk);
+        Long n = redisTemplate.opsForValue().increment("kill" + 1, -1);
+
+
+    }
+
+    @Test
+    public void get(){
+
+        Long n = redisTemplate.opsForValue().increment("kill" + 1, -1);
+        System.out.println("---"+n);
     }
 }
