@@ -14,6 +14,7 @@
         <module>ev-auth</module>
         <module>rabbitservice-sms</module>
         <module>ev-h5</module>
+        <module>ev-upload</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

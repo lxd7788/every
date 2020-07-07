@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ev-upload" />
         <module name="ev-gateway" />
         <module name="ev-auth" />
         <module name="rabbitservice-sms" />
@@ -22,6 +23,7 @@
       <module name="ev-gateway" options="-parameters" />
       <module name="ev-h5" options="-parameters" />
       <module name="ev-registry" options="-parameters" />
+      <module name="ev-upload" options="-parameters" />
       <module name="ev-user" options="-parameters" />
       <module name="rabbitservice-sms" options="-parameters" />
     </option>
