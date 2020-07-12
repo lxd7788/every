@@ -37,6 +37,7 @@ leyou:
       - /api/item
       - /api/rabitsms
       - /api/h5/miaosha/list
+      - /api/h5/miaosha/itemList
 
 
 hystrix:

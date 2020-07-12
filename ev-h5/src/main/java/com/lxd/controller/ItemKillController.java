@@ -1,7 +1,11 @@
 package com.lxd.controller;
 
+import com.lxd.pojo.Item;
 import com.lxd.pojo.ItemKill;
 import com.lxd.service.ItemKillService;
+import com.lxd.service.itemSlistService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +22,13 @@ import java.util.List;
 @RequestMapping("/miaosha")
 public class ItemKillController {
 
+    private static Logger logger = LoggerFactory.getLogger(ItemKillController.class);
+
     @Autowired
     private ItemKillService itemKillService;
 
+    @Autowired
+    private itemSlistService itemSlistService;
     /**
      * 秒杀详情list
      * @return
@@ -50,8 +58,12 @@ public class ItemKillController {
      */
     @GetMapping("/itemList")
     public ResponseEntity<Object>  itemList(){
-        List<ItemKill> itemKills = itemKillService.selectList();
-        return ResponseEntity.ok(itemKills);
+        logger.info("1111111111");
+        List<Item> items = itemSlistService.itemList();
+        for (Item bean:items){
+            bean.setFilePath(itemSlistService.findBy(bean.getId()).getPath());
+        }
+        return ResponseEntity.ok(items);
     }
 
 }
