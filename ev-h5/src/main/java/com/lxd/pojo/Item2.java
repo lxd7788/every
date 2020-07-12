@@ -1,13 +1,8 @@
 package com.lxd.pojo;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.Date;
 
-@Table(name = "item")
-public class Item {
-    @Id
+public class Item2 {
     private Integer id;
 
     private String name;
@@ -23,27 +18,6 @@ public class Item {
     private Date createTime;
 
     private Date updateTime;
-
-    private String jiage;
-
-    @Transient
-    private String filePath;
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public String getJiage() {
-        return jiage;
-    }
-
-    public void setJiage(String jiage) {
-        this.jiage = jiage;
-    }
 
     public Integer getId() {
         return id;

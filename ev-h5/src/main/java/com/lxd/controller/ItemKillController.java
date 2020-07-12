@@ -43,4 +43,15 @@ public class ItemKillController {
         ItemKill itemKill = itemKillService.SelectItemKillById(Integer.parseInt(id));
         return ResponseEntity.ok(itemKill);
     }
+
+    /**
+     * 首页商品列表
+     * @return
+     */
+    @GetMapping("/itemList")
+    public ResponseEntity<Object>  itemList(){
+        List<ItemKill> itemKills = itemKillService.selectList();
+        return ResponseEntity.ok(itemKills);
+    }
+
 }
