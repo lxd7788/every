@@ -4,7 +4,8 @@ spring:
   application:
     name: every-auto
   datasource:
-    url: jdbc:mysql://192.168.109.201:3306/leyou
+#    url: jdbc:mysql://192.168.109.201:3306/leyou
+    url: jdbc:mysql://59.110.240.205:3306/leyou
     username: root
     password: 123456
     hikari:

@@ -7,7 +7,8 @@ spring:
     multipart:
       max-file-size: 5MB # 限制文件上传的大小
   datasource:
-    url: jdbc:mysql://192.168.109.201:3306/leyou?useSSL=false&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+#    url: jdbc:mysql://192.168.109.201:3306/leyou?useSSL=false&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://59.110.240.205:3306/leyou?useSSL=false&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
     username: root
     password: 123456
     hikari:
@@ -38,7 +39,8 @@ fdfs:
     width: 60
     height: 60
   tracker-list: # tracker地址：你的虚拟机服务器地址+端口（默认是22122）
-    - 192.168.109.201:22122
+#    - 192.168.109.201:22122
+    - 59.110.240.205:22122
 
 mybatis:
   configuration:
